@@ -4,16 +4,13 @@ var path = require('path'),
 var annotation_block_regex = /(?!\/*\*)([^\/])*(?=\*\/)/g,
     annotation_info_regex = /\* @/;
 
-module.exports = getAllAnnotation = function (file_path, opt, callback) {
+module.exports.getAllAnnotation = function (file_path, opt, callback) {
   if (arguments.length < 3)
     callback = opt;
-  var annotation_blocks = [];
+  var annotation_blocks;
   fs.readFile(file_path, { encoding: 'utf-8'}, function (err, data) {
     try {
-      var match_result = data.match(annotation_block_regex);
-      for (var i = 0; i < match_result.length; i++) {
-        annotation_blocks.push(parseAnnotationBlock(match_result[i], opt||{}));
-      }
+      annotation_blocks = parseAllAnnotationBlocks(data, opt);
     } catch (err) {
       callback(err);
     }
@@ -21,12 +18,18 @@ module.exports = getAllAnnotation = function (file_path, opt, callback) {
   });
 }
 
-module.exports = getAllAnnotationSync = function (file_path) {
-  var annotation_blocks = [];
+module.exports.getAllAnnotationSync = function (file_path, opt) {
   var data = fs.readFileSync(file_path, { encoding: 'utf-8' });
+  return parseAllAnnotationBlocks(data, opt);
+}
+
+function parseAllAnnotationBlocks (data, opt) {
+  var annotation_blocks = [];
   var match_result = data.match(annotation_block_regex);
   for (var i = 0; i < match_result.length; i++) {
-    annotation_blocks.push(parseAnnotationBlock(match_result[i]));
+    var annotation_block = parseAnnotationBlock(match_result[i], opt||{});
+    if (!!annotation_block)
+      annotation_blocks.push(annotation_block);
   }
   return annotation_blocks;
 }
@@ -37,6 +40,9 @@ function parseAnnotationBlock (annotation_block, opt) {
   }).filter(function (annotation_info) {
     return !!annotation_info;
   });
+
+  if (annotation_infos.length === 0)
+    return null;
 
   if (!!opt.merge) {
     var oring_annotation_infos = annotation_infos;
@@ -60,11 +66,11 @@ function parseAnnotation (annotation, opt) {
   var infos = annotation.replace(annotation_info_regex, '').trim().split(' '),
       key = infos.shift();
 
-  if (!!opt.prefix&&) {
-    if (key.match(opt.prefix))
-      key = key.replace(opt.prefix, '');
-    else
+  if (!!opt.prefix) {
+    if (!key.match(opt.prefix)) 
       return null;
+    if (!!opt.removePrefix)
+      key = key.replace(opt.prefix, '');
   }
 
   return {
