@@ -42,3 +42,8 @@ prefix `string`
 set prefix to 'pre-', case above would output:
 
     [{key:'pre-key2',value:'value2',annotation:(...)}]
+
+removePrefix `boolean`  
+only work when prefix is setup, removing prefix when output:
+
+    [{key:'key2',value:'value2',annotation:(...)}]
