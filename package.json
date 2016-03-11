@@ -1,16 +1,16 @@
 {
   "name": "annotation-parser",
   "version": "0.0.1",
-  "description": "",
+  "description": "annotation parser.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./test/annotation-parser.spec.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yujuiting/annotation-parser.git"
   },
-  "author": "",
+  "author": "yujuiting",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yujuiting/annotation-parser/issues"

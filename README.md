@@ -5,7 +5,7 @@
 ## Usage
 require
 
-    getAllAnnotation(file_path, opt, callback);
+    getAllAnnotation(file_path[, opt], callback);
     getAllAnnotationSync(file_path, opt);
 
 test.js
