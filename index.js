@@ -63,8 +63,8 @@ function parseAnnotationBlock (annotation_block, opt) {
 function parseAnnotation (annotation, opt) {
   if (!annotation_info_regex.test(annotation)) return null;
 
-  var infos = annotation.replace(annotation_info_regex, '').trim().split(' '),
-      key = infos.shift();
+  var info = annotation.replace(annotation_info_regex, '').trim().split(' '),
+      key = info.shift();
 
   if (!!opt.prefix) {
     if (!key.match(opt.prefix)) 
@@ -75,7 +75,7 @@ function parseAnnotation (annotation, opt) {
 
   return {
     key: key,
-    value: (infos.length === 1) ? infos[0] : infos,
+    value: info.join(' '),
     annotation: annotation
   };
 }

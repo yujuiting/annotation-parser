@@ -15,6 +15,7 @@ test.js
      * @key1 value1-1
      * @key1 value1-2
      * @pre-key2 value2
+     * @text hello comments!!
      */
      
 parse
@@ -26,8 +27,9 @@ parse
 output
 
     [{key:'key1',value:'value1-1',annotation:(...)},
-     {key:'key1',value:'value1-2',annotation:(...)}
-     {key:'pre-key2',value:'value2',annotation:(...)}]
+     {key:'key1',value:'value1-2',annotation:(...)},
+     {key:'pre-key2',value:'value2',annotation:(...)},
+     {key:'text',value:'hello comments!!',annotation:(...)}]
     
 ## Options
 
@@ -35,7 +37,8 @@ merge `boolean`
 
     {
       'key1': ['value1-1', 'value1-2'],
-      'pre-keys': 'value2'
+      'pre-keys': 'value2',
+      'text': 'hello comments!!'
     }
 
 prefix `string`  

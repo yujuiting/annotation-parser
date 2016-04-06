@@ -8,7 +8,7 @@ function expect (result) {
       eq: function(expectValue){
         if (typeof result === 'object')
           for(var k in result) expect(result[k]).eq(expectValue[k]);
-        else if(result!=expectValue)throw new Error('eq');
+        else if(result!=expectValue)throw new Error('eq, expect ' + expectValue + ' equal to ' + result);
       },
       has: function(expect){if(!result[expect])throw new Error('expect');},
       length: function (expect){if(result.length!==expect)throw new Error('length');},
@@ -25,9 +25,7 @@ expect(parser.getAllAnnotationSync(filepath, opt)).length(3);
 expect(parser.getAllAnnotationSync(filepath, opt)[0]).has('is');
 expect(parser.getAllAnnotationSync(filepath, opt)[0].is).eq('person');
 expect(parser.getAllAnnotationSync(filepath, opt)[0].name).eq('John');
-expect(parser.getAllAnnotationSync(filepath, opt)[0].can).isArray('person');
-expect(parser.getAllAnnotationSync(filepath, opt)[0].can).length(3);
-expect(parser.getAllAnnotationSync(filepath, opt)[0].can).eq(['eat', 'speak', 'sleep']);
+expect(parser.getAllAnnotationSync(filepath, opt)[0].can).eq('eat speak sleep');
 
 opt = { merge: true, prefix: 'super-' };
 expect(parser.getAllAnnotationSync(filepath, opt)).length(1);
